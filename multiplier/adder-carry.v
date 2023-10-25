@@ -104,18 +104,20 @@ module Add(
 	//     the third port is a 16-bit unsigned number as the output
 	//	   the forth port is a one bit port as the carry flag
 	// 
-	input [15:0] a,
-	input [15:0] b,
-	output reg[15:0] sum
+	input [31:0] a,
+	input [31:0] b,
+	output reg[31:0] sum
 );
 	// TODO: Implement this module here
-	wire P;
-	wire G;
-	wire [15:0] ans_16; // otherwise it would print during every clock circle
-	adder_sixteen_bit first( .A(a[15:0]), .B(b[15:0]), .C_last(1'b0), .sum(ans_16[15:0]), .P(P), .G(G));
+	wire [1:0] P;
+	wire [1:0] G;
+	wire [31:0] ans_32; // otherwise it would print during every clock circle
+	adder_sixteen_bit first( .A(a[15:0]), .B(b[15:0]), .C_last(1'b0), .sum(ans_32[15:0]), .P(P[0]), .G(G[0]));
+	adder_sixteen_bit second( .A(a[31:16]), .B(b[31:16]), .C_last(G[0]), .sum(ans_32[31:16]), .P(P[1]), .G(G[1]));
 
 	always @(*) begin
-		sum <= ans_16;
+		# 1;
+		sum <= ans_32;
 	end
 	
 endmodule
