@@ -35,7 +35,7 @@ module test_multiplier;
 			b[15:0] = $random;
 			res		= a * b;
 			
-			#25;
+			#30;
 			$display("TESTCASE %d: %d * %d = %d, correct answer is %d", i, a, b, answer, res[31:0]);
 
 			if (answer !== res[31:0]) begin
