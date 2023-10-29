@@ -24,8 +24,8 @@ module test_multiplier;
 	multiplier multiplier (a, b, answer);
 	
 	integer i;
-	reg[15:0] right;
-	reg[15:0] wrong;
+	reg [15:0] right;
+	reg [15:0] wrong;
 	initial begin
 		right = 0;
 		wrong = 0;

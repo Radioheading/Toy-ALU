@@ -19,7 +19,7 @@ module multiplier (
     reg signed [31:0] double_a;
     reg signed [31:0] neg_double_a;
     reg [15:-1] extend_b;
-    reg[4:0] i;
+    reg signed [4:0] i;
 
     always @(A, B) begin
         origin_a = {{16{A[15]}}, A[15:0]};
@@ -29,31 +29,32 @@ module multiplier (
         extend_b = {B[15:0], 1'b0};
 
         ans = 0;
-        for (i = 0; i < 16; i = i + 2) begin
+        for (i = 14; i >= 0; i = i - 2) begin
             if (extend_b[i + 1] == 1'b0 && extend_b[i] == 1'b0 && extend_b[i - 1] == 1'b0) begin
                 // do nothing
             end
             if (extend_b[i + 1] == 1'b0 && extend_b[i] == 1'b0 && extend_b[i - 1] == 1'b1) begin
-                ans = ans + (A << i);
+                ans = ans + A;
             end
             if (extend_b[i + 1] == 1'b0 && extend_b[i] == 1'b1 && extend_b[i - 1] == 1'b0) begin
-                ans = ans + (A << i);
+                ans = ans + A;
             end
             if (extend_b[i + 1] == 1'b0 && extend_b[i] == 1'b1 && extend_b[i - 1] == 1'b1) begin
-                ans = ans + (double_a << i);
+                ans = ans + double_a;
             end
             if (extend_b[i + 1] == 1'b1 && extend_b[i] == 1'b0 && extend_b[i - 1] == 1'b0) begin
-                ans = ans + (neg_double_a << i);
+                ans = ans + neg_double_a;
             end
             if (extend_b[i + 1] == 1'b1 && extend_b[i] == 1'b0 && extend_b[i - 1] == 1'b1) begin
-                ans = ans + (minus_a << i);
+                ans = ans + minus_a;
             end
             if (extend_b[i + 1] == 1'b1 && extend_b[i] == 1'b1 && extend_b[i - 1] == 1'b0) begin
-                ans = ans + (minus_a << i);
+                ans = ans + minus_a;
             end
             if (extend_b[i + 1] == 1'b1 && extend_b[i] == 1'b1 && extend_b[i - 1] == 1'b1) begin
                 // do nothing
             end
+            if (i != 0) ans = ans << 2;
         end
     end
 
