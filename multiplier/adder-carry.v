@@ -106,7 +106,7 @@ module Add(
 	// 
 	input [31:0] a,
 	input [31:0] b,
-	output reg[31:0] sum
+	output wire [31:0] sum
 );
 	// TODO: Implement this module here
 	wire [1:0] P;
@@ -115,9 +115,6 @@ module Add(
 	adder_sixteen_bit first( .A(a[15:0]), .B(b[15:0]), .C_last(1'b0), .sum(ans_32[15:0]), .P(P[0]), .G(G[0]));
 	adder_sixteen_bit second( .A(a[31:16]), .B(b[31:16]), .C_last(G[0]), .sum(ans_32[31:16]), .P(P[1]), .G(G[1]));
 
-	always @(*) begin
-		# 1;
-		sum <= ans_32;
-	end
+	assign sum = ans_32;
 	
 endmodule
